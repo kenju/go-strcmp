@@ -8,12 +8,14 @@ import (
 	strcmp "github.com/kenju/go-strcmp"
 )
 
-func TestMatch(t *testing.T) {
-	tests := map[string]struct {
-		pattern  string
-		text     string
-		expected bool
-	}{
+type testCase struct {
+	pattern  string
+	text     string
+	expected bool
+}
+
+func testCases() map[string]testCase {
+	return map[string]testCase{
 		"empty": {
 			pattern:  "",
 			text:     "",
@@ -50,10 +52,14 @@ func TestMatch(t *testing.T) {
 			expected: false,
 		},
 	}
+}
 
-	for name, tt := range tests {
+type matchFunc func(pattern string, text string) bool
+
+func testMatchAlgorithm(t *testing.T, fn matchFunc) {
+	for name, tt := range testCases() {
 		t.Run(name, func(t *testing.T) {
-			actual := strcmp.Match(tt.pattern, tt.text)
+			actual := fn(tt.pattern, tt.text)
 			comp(t, tt.expected, actual)
 		})
 	}
@@ -64,6 +70,18 @@ func comp(t *testing.T, expected, actual interface{}) {
 	if diff != "" {
 		t.Fatalf(diff)
 	}
+}
+
+func TestMatch(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.Match)
+}
+
+func TestMatchRegexp(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.MatchRegexp)
+}
+
+func TestMatchKMP(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.MatchKMP)
 }
 
 func BenchmarkMatchRegexp(b *testing.B) {
