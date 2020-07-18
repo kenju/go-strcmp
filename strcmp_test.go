@@ -20,6 +20,10 @@ func TestMatchRegexp(t *testing.T) {
 	testMatchAlgorithm(t, strcmp.MatchRegexp)
 }
 
+func TestMatchNaively(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.MatchNaively)
+}
+
 func TestMatchKMP(t *testing.T) {
 	testMatchAlgorithm(t, strcmp.MatchKMP)
 }
@@ -30,6 +34,10 @@ func TestMatchKMP(t *testing.T) {
 
 func BenchmarkMatchRegexp(b *testing.B) {
 	benchMatchAlgorithm(b, strcmp.MatchRegexp)
+}
+
+func BenchmarkMatchNaively(b *testing.B) {
+	benchMatchAlgorithm(b, strcmp.MatchNaively)
 }
 
 func BenchmarkMatchKMP(b *testing.B) {
@@ -105,8 +113,8 @@ func comp(t *testing.T, expected, actual interface{}) {
 }
 
 func benchMatchAlgorithm(b *testing.B, fn matchFunc) {
-	pattern := "abcabac"
-	text := "ababcababcabac"
+	pattern := "abcabacabcabac"
+	text := "aababcababcabacababcababcabacababcababcabacbabcababcabac"
 	for n := 0; n < b.N; n++ {
 		fn(pattern, text)
 	}
