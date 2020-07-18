@@ -1,8 +1,5 @@
 name: bench
 on: [push, pull_request]
-env:
-  GO_VERSION: "1.14"
-  COB_VERSION: "0.0.6"
 jobs:
   test:
     name: bench
@@ -12,13 +9,14 @@ jobs:
     - name: Set up Go 1.14
       uses: actions/setup-go@v1
       with:
-        go-version: $GO_VERSION
+        go-version: 1.14
+      id: go
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
 
     - name: Install cob
-      run: curl -sfL https://raw.githubusercontent.com/knqyf263/cob/v$COB_VERSION/install.sh | sudo sh -s -- -b /usr/local/bin
+      run: curl -sfL https://raw.githubusercontent.com/knqyf263/cob/v0.0.6/install.sh | sudo sh -s -- -b /usr/local/bin
 
     - name: Run Benchmark
       run: cob
