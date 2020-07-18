@@ -8,6 +8,46 @@ import (
 	strcmp "github.com/kenju/go-strcmp"
 )
 
+/**
+ * Unit Tests
+ */
+
+func TestMatch(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.Match)
+}
+
+func TestMatchRegexp(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.MatchRegexp)
+}
+
+func TestMatchKMP(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.MatchKMP)
+}
+
+/**
+ * Benchmark
+ */
+
+func benchMatchAlgorithm(b *testing.B, fn matchFunc) {
+	pattern := "abcabac"
+	text := "ababcababcabac"
+	for n := 0; n < b.N; n++ {
+		fn(pattern, text)
+	}
+}
+
+func BenchmarkMatchRegexp(b *testing.B) {
+	benchMatchAlgorithm(b, strcmp.MatchRegexp)
+}
+
+func BenchmarkMatchKMP(b *testing.B) {
+	benchMatchAlgorithm(b, strcmp.MatchKMP)
+}
+
+/**
+ * Test Utility
+ */
+
 type testCase struct {
 	pattern  string
 	text     string
@@ -69,25 +109,5 @@ func comp(t *testing.T, expected, actual interface{}) {
 	diff := cmp.Diff(expected, actual)
 	if diff != "" {
 		t.Fatalf(diff)
-	}
-}
-
-func TestMatch(t *testing.T) {
-	testMatchAlgorithm(t, strcmp.Match)
-}
-
-func TestMatchRegexp(t *testing.T) {
-	testMatchAlgorithm(t, strcmp.MatchRegexp)
-}
-
-func TestMatchKMP(t *testing.T) {
-	testMatchAlgorithm(t, strcmp.MatchKMP)
-}
-
-func BenchmarkMatchRegexp(b *testing.B) {
-	pattern := "abcabac"
-	text := "ababcababcabac"
-	for n := 0; n < b.N; n++ {
-		strcmp.MatchRegexp(pattern, text)
 	}
 }
