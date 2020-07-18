@@ -28,14 +28,6 @@ func TestMatchKMP(t *testing.T) {
  * Benchmark
  */
 
-func benchMatchAlgorithm(b *testing.B, fn matchFunc) {
-	pattern := "abcabac"
-	text := "ababcababcabac"
-	for n := 0; n < b.N; n++ {
-		fn(pattern, text)
-	}
-}
-
 func BenchmarkMatchRegexp(b *testing.B) {
 	benchMatchAlgorithm(b, strcmp.MatchRegexp)
 }
@@ -109,5 +101,13 @@ func comp(t *testing.T, expected, actual interface{}) {
 	diff := cmp.Diff(expected, actual)
 	if diff != "" {
 		t.Fatalf(diff)
+	}
+}
+
+func benchMatchAlgorithm(b *testing.B, fn matchFunc) {
+	pattern := "abcabac"
+	text := "ababcababcabac"
+	for n := 0; n < b.N; n++ {
+		fn(pattern, text)
 	}
 }
