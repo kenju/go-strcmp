@@ -1,4 +1,4 @@
-package main
+package strcmp
 
 // Match returns true when patten appears in text
 func Match(pattern string, text string) bool {

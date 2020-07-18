@@ -1,4 +1,4 @@
-package main_test
+package strcmp_test
 
 import (
 	"testing"
