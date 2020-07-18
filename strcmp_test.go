@@ -16,32 +16,40 @@ func TestMatch(t *testing.T) {
 	testMatchAlgorithm(t, strcmp.Match)
 }
 
-func TestMatchRegexp(t *testing.T) {
-	testMatchAlgorithm(t, strcmp.MatchRegexp)
-}
-
-func TestMatchNaively(t *testing.T) {
-	testMatchAlgorithm(t, strcmp.MatchNaively)
+func TestMatchContains(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.MatchContains)
 }
 
 func TestMatchKMP(t *testing.T) {
 	testMatchAlgorithm(t, strcmp.MatchKMP)
 }
 
+func TestMatchNaively(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.MatchNaively)
+}
+
+func TestMatchRegexp(t *testing.T) {
+	testMatchAlgorithm(t, strcmp.MatchRegexp)
+}
+
 /**
  * Benchmark
  */
 
-func BenchmarkMatchRegexp(b *testing.B) {
-	benchMatchAlgorithm(b, strcmp.MatchRegexp)
+func BenchmarkMatchContains(b *testing.B) {
+	benchMatchAlgorithm(b, strcmp.MatchContains)
+}
+
+func BenchmarkMatchKMP(b *testing.B) {
+	benchMatchAlgorithm(b, strcmp.MatchKMP)
 }
 
 func BenchmarkMatchNaively(b *testing.B) {
 	benchMatchAlgorithm(b, strcmp.MatchNaively)
 }
 
-func BenchmarkMatchKMP(b *testing.B) {
-	benchMatchAlgorithm(b, strcmp.MatchKMP)
+func BenchmarkMatchRegexp(b *testing.B) {
+	benchMatchAlgorithm(b, strcmp.MatchRegexp)
 }
 
 /**
