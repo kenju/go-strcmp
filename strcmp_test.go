@@ -33,23 +33,47 @@ func TestMatchRegexp(t *testing.T) {
 }
 
 /**
- * Benchmark
+ * Benchmark (when match)
  */
+
+/* MatchContains */
 
 func BenchmarkMatchContains(b *testing.B) {
 	benchMatchAlgorithm(b, strcmp.MatchContains)
 }
 
+func BenchmarkUnmatchContains(b *testing.B) {
+	benchUnmatchAlgorithm(b, strcmp.MatchContains)
+}
+
+/* MatchKMP */
+
 func BenchmarkMatchKMP(b *testing.B) {
 	benchMatchAlgorithm(b, strcmp.MatchKMP)
 }
+
+func BenchmarkUnmatchKMP(b *testing.B) {
+	benchUnmatchAlgorithm(b, strcmp.MatchKMP)
+}
+
+/* MatchNaively */
 
 func BenchmarkMatchNaively(b *testing.B) {
 	benchMatchAlgorithm(b, strcmp.MatchNaively)
 }
 
+func BenchmarkUnmatchNaively(b *testing.B) {
+	benchUnmatchAlgorithm(b, strcmp.MatchNaively)
+}
+
+/* MatchRegexp */
+
 func BenchmarkMatchRegexp(b *testing.B) {
 	benchMatchAlgorithm(b, strcmp.MatchRegexp)
+}
+
+func BenchmarkUnmatchRegexp(b *testing.B) {
+	benchUnmatchAlgorithm(b, strcmp.MatchRegexp)
 }
 
 /**
@@ -122,6 +146,14 @@ func comp(t *testing.T, expected, actual interface{}) {
 
 func benchMatchAlgorithm(b *testing.B, fn matchFunc) {
 	pattern := "abcabacabcabac"
+	text := "aababcababcabacababcababcabacababcababcabacbabcababcabac"
+	for n := 0; n < b.N; n++ {
+		fn(pattern, text)
+	}
+}
+
+func benchUnmatchAlgorithm(b *testing.B, fn matchFunc) {
+	pattern := "xxxxxxxxxxxxxx"
 	text := "aababcababcabacababcababcabacababcababcabacbabcababcabac"
 	for n := 0; n < b.N; n++ {
 		fn(pattern, text)
